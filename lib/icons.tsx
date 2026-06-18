@@ -9,6 +9,7 @@ import {
   FileBarChart2,
   PieChart,
   Bookmark,
+  Compass,
 } from 'lucide-react';
 import type { LucideProps } from 'lucide-react';
 import type { ComponentType } from 'react';
@@ -24,4 +25,5 @@ export const toolIcons: Record<string, ComponentType<LucideProps>> = {
   'file-chart': FileBarChart2,
   'pie-chart': PieChart,
   bookmark: Bookmark,
+  compass: Compass,
 };

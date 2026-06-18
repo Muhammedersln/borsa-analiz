@@ -160,7 +160,58 @@ export const tools: Tool[] = [
         required: true
       }
     ]
-  }
+  },
+  {
+    id: 'piyasa-oneri',
+    title: 'Piyasa Keşfi',
+    description: 'Bölge ve yatırım tarzı seç — az bilinen veya popüler hisse önerileri al.',
+    icon: 'compass',
+    color: 'text-violet-700',
+    bgColor: 'bg-violet-50',
+    iconColor: 'text-violet-600',
+    fields: [
+      {
+        id: 'regions',
+        label: 'Piyasa / Bölge',
+        type: 'select',
+        options: [
+          'Türkiye (BIST)',
+          'Amerika (NYSE / NASDAQ)',
+          'Avrupa',
+          'Türkiye + Amerika',
+          'Türkiye + Avrupa',
+          'Amerika + Avrupa',
+          'Tüm Piyasalar',
+        ],
+        required: true,
+      },
+      {
+        id: 'discovery',
+        label: 'Hisse Tipi',
+        type: 'select',
+        options: [
+          'Karışık (az bilinen + popüler)',
+          'Az bilinen / gizli fırsatlar',
+          'Popüler / büyük şirketler',
+        ],
+        required: true,
+      },
+      {
+        id: 'style',
+        label: 'Yatırım Tarzı',
+        type: 'select',
+        options: ['Büyüme', 'Değer', 'Temettü', 'Tematik / Sektörel'],
+        required: true,
+      },
+      {
+        id: 'risk',
+        label: 'Risk Toleransı',
+        type: 'select',
+        options: ['Düşük', 'Orta', 'Yüksek'],
+        required: true,
+      },
+    ],
+  },
 ];
 
 export function getToolById(id: string): Tool | undefined {

@@ -30,6 +30,54 @@ export function buildPrompt(toolId: string, params: Record<string, string>): str
     case 'izleme':
       return `Create a stock watchlist for me based on this theme: ${params.theme}. For each stock, include the ticker, company summary, why it may be worth watching, key financial strengths, major risks, ideal investor type, and what price or event might make it more attractive.`;
 
+    case 'piyasa-oneri': {
+      const discoveryMap: Record<string, string> = {
+        'Karışık (az bilinen + popüler)': 'a balanced mix of lesser-known hidden gems AND well-known popular stocks',
+        'Az bilinen / gizli fırsatlar': 'ONLY lesser-known, under-researched, or overlooked stocks that most retail investors have not heard of',
+        'Popüler / büyük şirketler': 'ONLY well-known, widely followed large-cap stocks',
+      };
+      const discoveryInstruction = discoveryMap[params.discovery] ?? 'a mix of stocks';
+
+      return `Act as a senior global equity research analyst. Your task is to identify stock opportunities in the following market(s): ${params.regions}.
+
+The user wants: ${discoveryInstruction}
+Investment style: ${params.style}
+Risk tolerance: ${params.risk}
+
+Structure your response as follows:
+
+## Piyasa Genel Bakış
+Briefly summarize the current macro environment and key trends in the selected region(s). What sectors are in favor or out of favor? Any major tailwinds or headwinds?
+
+## Hisse Önerileri
+
+For each recommended stock, provide a card-style breakdown with:
+- **Ticker & Şirket**: (use correct ticker — for Turkish stocks add .IS, e.g. THYAO.IS)
+- **Ülke / Borsa**
+- **Sektör**
+- **Neden şu an ilginç?**: The specific catalyst or opportunity right now
+- **Temel güçlü yönler**: 3 bullet points
+- **Ana riskler**: 2-3 bullet points
+- **Değerleme**: Is it cheap, fair, or expensive relative to history and peers?
+- **Hangi yatırımcıya uygun**: Who should consider this stock?
+
+${params.discovery.includes('Karışık') ? `
+Provide TWO sections:
+### Az Bilinen / Keşfedilmemiş (3-4 stocks)
+Stocks with market cap under $5B or lesser known to retail investors, with strong fundamentals.
+
+### Popüler / Büyük Şirketler (3-4 stocks)
+Well-known names — but explain whether NOW is a good entry point and why.
+` : `
+Provide 6-8 stock recommendations. Be specific and justify each pick clearly.
+`}
+
+## Özet Tablo
+Create a markdown table with all recommended stocks: Ticker | Şirket | Sektör | Risk | Neden?
+
+Be specific, opinionated, and actionable. Avoid vague answers.`;
+    }
+
     default:
       return null;
   }
